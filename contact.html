@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Diamilou Sueur</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      margin-top: 2rem;
+    }
+
+    /* CONTACT METHODS */
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-method::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .contact-method.cm-cyan::before  { background: var(--accent-cyan); }
+    .contact-method.cm-blue::before  { background: var(--accent-blue); }
+    .contact-method.cm-green::before { background: var(--accent-green); }
+    .contact-method.cm-violet::before{ background: var(--accent-violet); }
+
+    .contact-method:hover {
+      border-color: rgba(0,229,255,0.35);
+      box-shadow: var(--glow);
+      transform: translateX(4px);
+    }
+    .contact-method:hover::before { opacity: 1; }
+
+    .cm-icon {
+      font-size: 1.75rem;
+      flex-shrink: 0;
+    }
+    .cm-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+    .cm-value {
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+    .cm-arrow {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .contact-method:hover .cm-arrow {
+      color: var(--accent-cyan);
+      transform: translateX(4px);
+    }
+
+    /* FORM */
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: rgba(0,229,255,0.5);
+      box-shadow: 0 0 0 3px rgba(0,229,255,0.08);
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--text-muted); opacity: 0.6; }
+    .form-textarea { resize: vertical; min-height: 130px; }
+
+    .btn-send {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--accent-cyan);
+      color: var(--bg-deep);
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .btn-send:hover {
+      background: transparent;
+      color: var(--accent-cyan);
+      box-shadow: 0 0 20px rgba(0,229,255,0.3);
+      border: 1px solid var(--accent-cyan);
+    }
+
+    /* MAP / LOCATION */
+    .location-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+    .location-card h3 {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 1rem;
+    }
+    .location-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      padding: 0.5rem 0;
+    }
+    .location-row strong { color: var(--text-primary); }
+
+    /* AVAILABILITY BANNER */
+    .avail-banner {
+      background: linear-gradient(135deg, rgba(0,255,136,0.08), rgba(0,229,255,0.05));
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .avail-text strong { color: var(--text-primary); font-size: 0.95rem; }
+    .avail-text p { font-size: 0.83rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+    @media (max-width: 768px) {
+      .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">DS<span>.portfolio</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="apropos.html">À Propos</a></li>
+      <li><a href="experiences.html">Expériences</a></li>
+      <li><a href="projets.html">Projets</a></li>
+      <li><a href="veille.html">Veille</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <div class="nav-burger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-tag">// Prenons contact</div>
+      <h1 class="page-title">Me Contacter</h1>
+      <p class="page-sub">Étudiant en alternance disponible pour tout échange professionnel ou pédagogique.</p>
+      <div class="divider"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <!-- AVAILABILITY BANNER -->
+      <div class="avail-banner animate-in">
+        <div style="font-size:2rem;">🟢</div>
+        <div class="avail-text">
+          <strong><span class="status-dot"></span>En alternance — disponible pour échanges</strong>
+          <p>Actuellement en 1ère année de BTS SIO SISR en alternance chez INTECH Medical / Exalta. 
+          Disponible pour tout contact professionnel ou recrutement pour la 2ème année.</p>
+        </div>
+      </div>
+
+      <div class="contact-layout">
+
+        <!-- LEFT: Contact methods -->
+        <div class="animate-in">
+          <div class="section-title">Coordonnées directes</div>
+          <div class="section-heading">Comment me joindre</div>
+          <p class="section-desc" style="margin-bottom:1.75rem;">N'hésitez pas à me contacter par email ou téléphone pour toute question.</p>
+
+          <a href="mailto:sueur.diamilou24@gmail.com" class="contact-method cm-cyan">
+            <div class="cm-icon">📧</div>
+            <div>
+              <div class="cm-label">Email</div>
+              <div class="cm-value">sueur.diamilou24@gmail.com</div>
+            </div>
+            <span class="cm-arrow">→</span>
+          </a>
+
+          <a href="tel:+33754540766" class="contact-method cm-blue">
+            <div class="cm-icon">📱</div>
+            <div>
+              <div class="cm-label">Téléphone</div>
+              <div class="cm-value">07-54-54-07-66</div>
+            </div>
+            <span class="cm-arrow">→</span>
+          </a>
+
+          <div class="contact-method cm-violet" style="cursor:default;">
+            <div class="cm-icon">📍</div>
+            <div>
+              <div class="cm-label">Adresse</div>
+              <div class="cm-value">223 allée des courlis, Merlimont (62155)</div>
+            </div>
+          </div>
+
+          <div class="contact-method cm-green" style="cursor:default;">
+            <div class="cm-icon">🏫</div>
+            <div>
+              <div class="cm-label">Formation</div>
+              <div class="cm-value">AFPI Marcq-en-Barœul — BTS SIO SISR</div>
+            </div>
+          </div>
+
+          <!-- LOCATION CARD -->
+          <div class="location-card">
+            <h3>📌 Localisation & mobilité</h3>
+            <div class="location-row">
+              <span>🏠</span>
+              <div>Domicile : <strong>Merlimont, Pas-de-Calais (62)</strong></div>
+            </div>
+            <div class="location-row">
+              <span>🏢</span>
+              <div>Alternance : <strong>Rang-du-Fliers / secteur Côte d'Opale</strong></div>
+            </div>
+            <div class="location-row">
+              <span>🚗</span>
+              <div>Mobilité : <strong>Permis B en cours — Côte d'Opale & Lille</strong></div>
+            </div>
+            <div class="location-row">
+              <span>📅</span>
+              <div>Rythme alternance : <strong>3j entreprise / 2j formation</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Contact form -->
+        <div class="animate-in">
+          <div class="section-title">Formulaire</div>
+          <div class="section-heading">Envoyer un message</div>
+          <p class="section-desc" style="margin-bottom:1.75rem;">Laissez-moi un message et je vous répondrai dans les meilleurs délais.</p>
+
+          <div class="card">
+            <form onsubmit="handleSubmit(event)">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                <div class="form-group">
+                  <label class="form-label">Prénom</label>
+                  <input type="text" class="form-input" placeholder="Votre prénom" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Nom</label>
+                  <input type="text" class="form-input" placeholder="Votre nom" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" placeholder="votre@email.com" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Objet</label>
+                <input type="text" class="form-input" placeholder="Ex: Candidature alternance, Question BTS..." />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Message</label>
+                <textarea class="form-textarea" placeholder="Votre message..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn-send" id="sendBtn">
+                <span>📤</span>
+                <span>Envoyer le message</span>
+              </button>
+            </form>
+
+            <!-- SUCCESS MSG -->
+            <div id="successMsg" style="display:none; margin-top:1rem; padding:1rem; background:rgba(0,255,136,0.08); border:1px solid rgba(0,255,136,0.25); border-radius:8px; text-align:center; font-size:0.88rem; color:var(--accent-green);">
+              ✅ Message envoyé ! Je vous répondrai dès que possible.
+            </div>
+          </div>
+
+          <!-- QUICK LINKS -->
+          <div style="margin-top:1.5rem; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem;">
+            <div style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-cyan); margin-bottom:1rem;">
+              Navigation rapide
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+              <a href="experiences.html" style="text-decoration:none; background:rgba(0,229,255,0.05); border:1px solid var(--border); border-radius:6px; padding:0.65rem 0.85rem; font-size:0.82rem; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+                💼 Expériences
+              </a>
+              <a href="projets.html" style="text-decoration:none; background:rgba(0,229,255,0.05); border:1px solid var(--border); border-radius:6px; padding:0.65rem 0.85rem; font-size:0.82rem; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+                🖥️ Projets BTS
+              </a>
+              <a href="veille.html" style="text-decoration:none; background:rgba(0,229,255,0.05); border:1px solid var(--border); border-radius:6px; padding:0.65rem 0.85rem; font-size:0.82rem; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+                🔍 Veille techno
+              </a>
+              <a href="apropos.html" style="text-decoration:none; background:rgba(0,229,255,0.05); border:1px solid var(--border); border-radius:6px; padding:0.65rem 0.85rem; font-size:0.82rem; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+                👤 À propos
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <span>Diamilou Sueur</span> — BTS SIO SISR — AFPI Marcq-en-Barœul — 2024/2025
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.querySelector('.nav-links').classList.toggle('open');
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('sendBtn');
+    btn.textContent = '⏳ Envoi en cours...';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+      e.target.reset();
+    }, 1200);
+  }
+</script>
+</body>
+</html>

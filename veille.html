@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veille Technologique — Diamilou Sueur</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* VEILLE LAYOUT */
+    .veille-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* VEILLE TOPIC CARD */
+    .veille-topic {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 1.75rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .veille-topic::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .veille-topic.t-cyan::before   { background: linear-gradient(90deg, var(--accent-cyan), transparent); }
+    .veille-topic.t-blue::before   { background: linear-gradient(90deg, var(--accent-blue), transparent); }
+    .veille-topic.t-violet::before { background: linear-gradient(90deg, var(--accent-violet), transparent); }
+    .veille-topic.t-green::before  { background: linear-gradient(90deg, var(--accent-green), transparent); }
+    .veille-topic.t-orange::before { background: linear-gradient(90deg, #fb923c, transparent); }
+
+    .veille-topic:hover {
+      border-color: rgba(0,229,255,0.35);
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+    .veille-topic:hover::before { opacity: 1; }
+
+    .vt-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .vt-icon {
+      font-size: 2.2rem;
+      flex-shrink: 0;
+    }
+    .vt-meta {}
+    .vt-cat {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    .vt-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .vt-body {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+    .vt-keypoints {
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .vt-keypoints-title {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent-cyan);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .vt-keypoints ul {
+      list-style: none;
+      font-size: 0.83rem;
+    }
+    .vt-keypoints li {
+      color: var(--text-muted);
+      padding: 0.2rem 0 0.2rem 1.25rem;
+      position: relative;
+    }
+    .vt-keypoints li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent-cyan);
+    }
+    .vt-link {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: gap 0.2s;
+    }
+    .vt-link:hover { gap: 0.7rem; }
+
+    /* SOURCES SIDEBAR */
+    .sidebar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      position: sticky;
+      top: 88px;
+    }
+    .sidebar-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 1rem;
+    }
+    .source-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.82rem;
+      text-decoration: none;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .source-item:hover { color: var(--text-primary); }
+    .source-item:last-child { border-bottom: none; }
+    .source-icon { font-size: 1rem; }
+
+    /* TOPIC BADGES */
+    .topic-bubble {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(0,229,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin: 0.25rem;
+      transition: all 0.2s;
+    }
+    .topic-bubble:hover {
+      background: rgba(0,229,255,0.12);
+      border-color: rgba(0,229,255,0.3);
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 900px) {
+      .veille-layout { grid-template-columns: 1fr; }
+      .sidebar-card { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">DS<span>.portfolio</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="apropos.html">À Propos</a></li>
+      <li><a href="experiences.html">Expériences</a></li>
+      <li><a href="projets.html">Projets</a></li>
+      <li><a href="veille.html" class="active">Veille</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-burger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-tag">// Veille technologique SISR</div>
+      <h1 class="page-title">Veille Technologique</h1>
+      <p class="page-sub">Suivi des évolutions du secteur IT : cybersécurité, virtualisation, cloud, réseaux et infrastructure.</p>
+      <div class="divider"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <!-- Topics overview -->
+      <div class="animate-in" style="text-align:center; margin-bottom:3rem;">
+        <div class="topic-bubble">🛡️ Cybersécurité</div>
+        <div class="topic-bubble">☁️ Cloud Computing</div>
+        <div class="topic-bubble">🔒 Zero Trust</div>
+        <div class="topic-bubble">🖥️ Virtualisation</div>
+        <div class="topic-bubble">🌐 Réseaux SDN</div>
+        <div class="topic-bubble">🤖 IA & IT</div>
+        <div class="topic-bubble">📋 ITSM</div>
+        <div class="topic-bubble">🔑 IAM</div>
+      </div>
+
+      <div class="veille-layout">
+
+        <!-- MAIN CONTENT -->
+        <div>
+
+          <!-- SUJET 1: Cybersécurité Zero Trust -->
+          <div class="veille-topic t-cyan animate-in">
+            <div class="vt-header">
+              <div class="vt-icon">🛡️</div>
+              <div class="vt-meta">
+                <div class="vt-cat">Cybersécurité — Architectures</div>
+                <div class="vt-title">Le modèle Zero Trust : "Ne jamais faire confiance, toujours vérifier"</div>
+              </div>
+            </div>
+            <div class="vt-body">
+              Le modèle de sécurité <strong style="color:var(--text-primary)">Zero Trust</strong> repose sur le principe qu'aucun utilisateur 
+              ni appareil ne doit être considéré comme fiable par défaut, même s'il se trouve à l'intérieur du réseau 
+              de l'entreprise. Cette approche devient incontournable avec la généralisation du télétravail et du cloud. 
+              Dans un environnement industriel comme INTECH Medical, où les machines de production sont connectées au SI, 
+              le Zero Trust prend tout son sens.
+            </div>
+            <div class="vt-keypoints">
+              <div class="vt-keypoints-title">Points clés à retenir</div>
+              <ul>
+                <li>Vérification systématique de chaque utilisateur et appareil (MFA obligatoire)</li>
+                <li>Principe du moindre privilège : accès limité au strict nécessaire</li>
+                <li>Micro-segmentation du réseau pour limiter la propagation des menaces</li>
+                <li>Supervision continue des comportements (SIEM, EDR)</li>
+                <li>Application aux environnements OT/IT dans l'industrie médicale</li>
+              </ul>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-cyan">Zero Trust</span>
+              <span class="badge badge-cyan">MFA</span>
+              <span class="badge badge-blue">Micro-segmentation</span>
+              <span class="badge badge-violet">SIEM</span>
+              <span class="badge badge-orange">EDR</span>
+            </div>
+          </div>
+
+          <!-- SUJET 2: Virtualisation -->
+          <div class="veille-topic t-blue animate-in">
+            <div class="vt-header">
+              <div class="vt-icon">🖥️</div>
+              <div class="vt-meta">
+                <div class="vt-cat">Infrastructure — Virtualisation</div>
+                <div class="vt-title">Virtualisation et containers : VMware, Hyper-V et Docker</div>
+              </div>
+            </div>
+            <div class="vt-body">
+              La virtualisation est au cœur des infrastructures modernes. Les technologies comme 
+              <strong style="color:var(--text-primary)">VMware vSphere</strong>, <strong style="color:var(--text-primary)">Hyper-V</strong> de Microsoft 
+              et les containers <strong style="color:var(--text-primary)">Docker/Kubernetes</strong> permettent de maximiser l'utilisation 
+              des ressources matérielles et d'améliorer la disponibilité des services. 
+              Dans le cadre de mon BTS SISR, j'ai travaillé avec VirtualBox pour simuler des environnements réseau complets.
+            </div>
+            <div class="vt-keypoints">
+              <div class="vt-keypoints-title">Points clés à retenir</div>
+              <ul>
+                <li>Hyperviseurs de type 1 (bare-metal) vs type 2 (hosted)</li>
+                <li>Machines virtuelles vs containers : différences et cas d'usage</li>
+                <li>VMware vSphere / ESXi : standard en entreprise</li>
+                <li>Hyper-V : solution intégrée à Windows Server</li>
+                <li>Docker : conteneurisation légère des applications</li>
+                <li>Kubernetes : orchestration de containers à grande échelle</li>
+              </ul>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-blue">VMware</span>
+              <span class="badge badge-blue">Hyper-V</span>
+              <span class="badge badge-cyan">Docker</span>
+              <span class="badge badge-violet">Kubernetes</span>
+              <span class="badge badge-green">VirtualBox</span>
+            </div>
+          </div>
+
+          <!-- SUJET 3: Cloud -->
+          <div class="veille-topic t-violet animate-in">
+            <div class="vt-header">
+              <div class="vt-icon">☁️</div>
+              <div class="vt-meta">
+                <div class="vt-cat">Cloud Computing</div>
+                <div class="vt-title">Cloud hybride et multi-cloud : Azure, AWS et souveraineté des données</div>
+              </div>
+            </div>
+            <div class="vt-body">
+              Le cloud hybride combine infrastructure on-premise et services cloud publics 
+              (<strong style="color:var(--text-primary)">Azure</strong>, <strong style="color:var(--text-primary)">AWS</strong>, Google Cloud). 
+              Pour des entreprises comme INTECH Medical qui gèrent des données de dispositifs médicaux soumises à 
+              réglementation (ISO 13485, RGPD), la souveraineté des données et le choix du datacenter sont des enjeux critiques. 
+              Le cloud souverain français (SecNumCloud, OVHcloud) répond à ces exigences.
+            </div>
+            <div class="vt-keypoints">
+              <div class="vt-keypoints-title">Points clés à retenir</div>
+              <ul>
+                <li>IaaS / PaaS / SaaS : les 3 modèles de services cloud</li>
+                <li>Azure AD (Entra ID) : gestion des identités hybrides</li>
+                <li>RGPD et localisation des données (data residency)</li>
+                <li>Cloud souverain français : SecNumCloud, OVHcloud</li>
+                <li>ExpressRoute / Direct Connect : connexions dédiées cloud</li>
+              </ul>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-violet">Azure</span>
+              <span class="badge badge-blue">AWS</span>
+              <span class="badge badge-cyan">Cloud hybride</span>
+              <span class="badge badge-green">SecNumCloud</span>
+              <span class="badge badge-orange">RGPD</span>
+            </div>
+          </div>
+
+          <!-- SUJET 4: ITSM & ITIL -->
+          <div class="veille-topic t-green animate-in">
+            <div class="vt-header">
+              <div class="vt-icon">📋</div>
+              <div class="vt-meta">
+                <div class="vt-cat">ITSM — Bonnes pratiques</div>
+                <div class="vt-title">ITIL v4 et la modernisation du support IT avec Halo ITSM & KACE</div>
+              </div>
+            </div>
+            <div class="vt-body">
+              <strong style="color:var(--text-primary)">ITIL v4</strong> (Information Technology Infrastructure Library) est le référentiel 
+              de bonnes pratiques pour la gestion des services IT. Il structure l'organisation du support (incidents, 
+              demandes, changements) et améliore la qualité de service. Des outils comme 
+              <strong style="color:var(--text-primary)">Halo ITSM</strong> et <strong style="color:var(--text-primary)">KACE SMA</strong> 
+              implémentent ces pratiques pour les équipes support que j'ai eu l'occasion d'utiliser chez INTECH Medical.
+            </div>
+            <div class="vt-keypoints">
+              <div class="vt-keypoints-title">Points clés à retenir</div>
+              <ul>
+                <li>ITIL v4 : 4 dimensions du management des services</li>
+                <li>Gestion des incidents vs gestion des problèmes</li>
+                <li>SLA (Service Level Agreement) : définition et pilotage</li>
+                <li>CMDB : base de données de gestion des configurations</li>
+                <li>KACE SMA : découverte automatique, déploiement, ticketing</li>
+                <li>Halo ITSM : catalogue de services, base de connaissances</li>
+              </ul>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-green">ITIL v4</span>
+              <span class="badge badge-cyan">Halo ITSM</span>
+              <span class="badge badge-cyan">KACE SMA</span>
+              <span class="badge badge-blue">CMDB</span>
+              <span class="badge badge-violet">SLA</span>
+            </div>
+          </div>
+
+          <!-- SUJET 5: Ransomware & sécurité industrie -->
+          <div class="veille-topic t-orange animate-in">
+            <div class="vt-header">
+              <div class="vt-icon">🔓</div>
+              <div class="vt-meta">
+                <div class="vt-cat">Cybersécurité — Menaces</div>
+                <div class="vt-title">Ransomware et cyberattaques visant le secteur médical & industriel</div>
+              </div>
+            </div>
+            <div class="vt-body">
+              Le secteur médical et industriel est une cible prioritaire des cyberattaques, notamment des 
+              <strong style="color:var(--text-primary)">ransomwares</strong>. Des groupes comme LockBit ou ALPHV/BlackCat ont 
+              attaqué des hôpitaux et des industriels de santé. Pour INTECH Medical, qui gère des chaînes de fabrication 
+              automatisées (OT) et des données de dispositifs médicaux réglementés, la résilience cyber est un enjeu vital. 
+              L'ANSSI publie régulièrement des recommandations adaptées à ces secteurs.
+            </div>
+            <div class="vt-keypoints">
+              <div class="vt-keypoints-title">Points clés à retenir</div>
+              <ul>
+                <li>Ransomware-as-a-Service (RaaS) : modèle criminel dominant</li>
+                <li>Double extorsion : chiffrement + exfiltration de données</li>
+                <li>Convergence IT/OT : risques spécifiques à l'industrie</li>
+                <li>Sauvegardes 3-2-1 : règle d'or de la résilience</li>
+                <li>Recommandations ANSSI pour les opérateurs d'importance vitale (OIV)</li>
+              </ul>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-orange">Ransomware</span>
+              <span class="badge badge-cyan">ANSSI</span>
+              <span class="badge badge-blue">OT Security</span>
+              <span class="badge badge-violet">Sauvegarde 3-2-1</span>
+            </div>
+          </div>
+
+          <!-- SUJET 6: IAM -->
+          <div class="veille-topic t-cyan animate-in">
+            <div class="vt-header">
+              <div class="vt-icon">🔑</div>
+              <div class="vt-meta">
+                <div class="vt-cat">Sécurité — Identités</div>
+                <div class="vt-title">IAM & Gestion des identités : Active Directory, Azure AD et MFA</div>
+              </div>
+            </div>
+            <div class="vt-body">
+              La <strong style="color:var(--text-primary)">gestion des identités et des accès (IAM)</strong> est un pilier de la sécurité 
+              des SI. En entreprise, <strong style="color:var(--text-primary)">Active Directory</strong> reste le standard pour les environnements 
+              on-premise. Sa version cloud, <strong style="color:var(--text-primary)">Azure AD (Entra ID)</strong>, étend ces capacités au cloud. 
+              Dans mon alternance chez INTECH Medical, j'ai directement travaillé sur l'administration des comptes 
+              Active Directory, ce qui illustre parfaitement les enjeux de cette thématique.
+            </div>
+            <div class="vt-keypoints">
+              <div class="vt-keypoints-title">Points clés à retenir</div>
+              <ul>
+                <li>Active Directory : OUs, GPO, groupes, délégation</li>
+                <li>RBAC (Role-Based Access Control) : accès par rôle</li>
+                <li>MFA : authentification multi-facteurs obligatoire en 2025</li>
+                <li>PAM (Privileged Access Management) : sécurisation des comptes admin</li>
+                <li>Single Sign-On (SSO) : confort utilisateur + sécurité</li>
+              </ul>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-cyan">Active Directory</span>
+              <span class="badge badge-cyan">Azure AD</span>
+              <span class="badge badge-blue">MFA</span>
+              <span class="badge badge-violet">PAM</span>
+              <span class="badge badge-green">SSO</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="animate-in">
+          <div class="sidebar-card">
+            <div class="sidebar-title">📡 Sources de veille</div>
+            <a class="source-item" href="https://www.cert.ssi.gouv.fr" target="_blank">
+              <span class="source-icon">🛡️</span>
+              <div>
+                <strong style="color:var(--text-primary); font-size:0.82rem;">ANSSI / CERT-FR</strong><br>
+                <span style="font-size:0.75rem;">Alertes cybersécurité nationales</span>
+              </div>
+            </a>
+            <a class="source-item" href="https://www.lemagit.fr" target="_blank">
+              <span class="source-icon">📰</span>
+              <div>
+                <strong style="color:var(--text-primary); font-size:0.82rem;">LeMagIT</strong><br>
+                <span style="font-size:0.75rem;">Actualités IT entreprise</span>
+              </div>
+            </a>
+            <a class="source-item" href="https://www.01net.com" target="_blank">
+              <span class="source-icon">💻</span>
+              <div>
+                <strong style="color:var(--text-primary); font-size:0.82rem;">01net</strong><br>
+                <span style="font-size:0.75rem;">Tech & numérique</span>
+              </div>
+            </a>
+            <a class="source-item" href="https://www.itpro.fr" target="_blank">
+              <span class="source-icon">🔧</span>
+              <div>
+                <strong style="color:var(--text-primary); font-size:0.82rem;">IT Pro</strong><br>
+                <span style="font-size:0.75rem;">Solutions pour pros IT</span>
+              </div>
+            </a>
+            <a class="source-item" href="https://docs.microsoft.com" target="_blank">
+              <span class="source-icon">🪟</span>
+              <div>
+                <strong style="color:var(--text-primary); font-size:0.82rem;">Microsoft Learn</strong><br>
+                <span style="font-size:0.75rem;">Documentation officielle</span>
+              </div>
+            </a>
+            <a class="source-item" href="https://www.reddit.com/r/sysadmin" target="_blank">
+              <span class="source-icon">💬</span>
+              <div>
+                <strong style="color:var(--text-primary); font-size:0.82rem;">r/sysadmin</strong><br>
+                <span style="font-size:0.75rem;">Communauté sysadmins</span>
+              </div>
+            </a>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-title">🗂️ Thèmes surveillés</div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.5rem;">
+              <span class="badge badge-cyan">Cybersécurité</span>
+              <span class="badge badge-blue">Cloud</span>
+              <span class="badge badge-violet">Virtualisation</span>
+              <span class="badge badge-green">ITSM</span>
+              <span class="badge badge-orange">Ransomware</span>
+              <span class="badge badge-cyan">Zero Trust</span>
+              <span class="badge badge-blue">IAM</span>
+              <span class="badge badge-violet">OT Security</span>
+              <span class="badge badge-green">Docker</span>
+              <span class="badge badge-orange">ANSSI</span>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-title">📊 Statistiques</div>
+            <div style="font-size:0.83rem; color:var(--text-muted);">
+              <div style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border);">
+                <span>Sujets couverts</span>
+                <strong style="color:var(--accent-cyan)">6</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border);">
+                <span>Sources actives</span>
+                <strong style="color:var(--accent-cyan)">6</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:0.5rem 0;">
+                <span>Technologies suivies</span>
+                <strong style="color:var(--accent-cyan)">20+</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <span>Diamilou Sueur</span> — BTS SIO SISR — AFPI Marcq-en-Barœul — 2024/2025
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.querySelector('.nav-links').classList.toggle('open');
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

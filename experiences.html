@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expériences — Diamilou Sueur</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .exp-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* INTECH HIGHLIGHT CARD */
+    .intech-banner {
+      background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(59,130,246,0.06));
+      border: 1px solid rgba(0,229,255,0.3);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .intech-banner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+    }
+    .intech-banner-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .intech-logo-text {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .intech-logo-text span { color: var(--accent-cyan); }
+    .intech-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+    .intech-stat {
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      padding: 0.85rem;
+      text-align: center;
+    }
+    .intech-stat-num {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+    .intech-stat-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+    .intech-missions {
+      margin-top: 1.5rem;
+    }
+    .mission-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.85rem;
+      background: rgba(0,0,0,0.15);
+      border-radius: 8px;
+      margin-bottom: 0.6rem;
+      transition: all 0.2s;
+    }
+    .mission-row:hover { background: rgba(0,229,255,0.06); }
+    .mission-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .mission-title { font-weight: 600; font-size: 0.92rem; margin-bottom: 0.2rem; }
+    .mission-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* TOOLS USED SIDEBAR */
+    .sidebar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      position: sticky;
+      top: 88px;
+    }
+    .sidebar-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 1rem;
+    }
+
+    /* KACE / HALO TOOL SECTION */
+    .itsm-section { margin-top: 2.5rem; }
+
+    @media (max-width: 900px) {
+      .exp-layout { grid-template-columns: 1fr; }
+      .sidebar-card { position: static; }
+      .intech-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">DS<span>.portfolio</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="apropos.html">À Propos</a></li>
+      <li><a href="experiences.html" class="active">Expériences</a></li>
+      <li><a href="projets.html">Projets</a></li>
+      <li><a href="veille.html">Veille</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-burger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-tag">// Mon parcours professionnel</div>
+      <h1 class="page-title">Expériences</h1>
+      <p class="page-sub">Alternance, stages et missions terrain qui forment mon expertise SISR au quotidien.</p>
+      <div class="divider"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="exp-layout">
+
+        <!-- MAIN CONTENT -->
+        <div>
+
+          <!-- ALTERNANCE INTECH -->
+          <div class="animate-in">
+            <div class="section-title">Alternance principale</div>
+            <div class="intech-banner">
+              <div class="intech-banner-header">
+                <div>
+                  <div class="intech-logo-text">IN<span>TECH</span> Medical</div>
+                  <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.3rem;">
+                    Rang-du-Fliers, Pas-de-Calais (62)
+                  </div>
+                </div>
+                <div>
+                  <span class="badge badge-green">En cours</span>
+                  <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted); margin-top:0.4rem;">2024 → 2026</div>
+                </div>
+              </div>
+
+              <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.8;">
+                INTECH Medical est un <strong style="color:var(--text-primary)">leader mondial</strong> dans la fabrication d'instruments chirurgicaux 
+                et de prothèses orthopédiques (rachis, extrémités). Fondé en 1999 à Rang-du-Fliers, le groupe compte 
+                <strong style="color:var(--text-primary)">880 salariés</strong>, réalise un CA de <strong style="color:var(--text-primary)">111,6 M€</strong> et 
+                est présent en France, aux États-Unis et en Malaisie. Certifié <strong style="color:var(--accent-cyan)">ISO 13485</strong>.
+              </p>
+
+              <div class="intech-stats">
+                <div class="intech-stat">
+                  <div class="intech-stat-num">880</div>
+                  <div class="intech-stat-label">Salariés</div>
+                </div>
+                <div class="intech-stat">
+                  <div class="intech-stat-num">111M€</div>
+                  <div class="intech-stat-label">Chiffre d'affaires</div>
+                </div>
+                <div class="intech-stat">
+                  <div class="intech-stat-num">3</div>
+                  <div class="intech-stat-label">Sites France</div>
+                </div>
+              </div>
+
+              <div class="intech-missions">
+                <div style="font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-cyan); margin-bottom:1rem; margin-top:0.5rem;">
+                  Missions réalisées au service informatique
+                </div>
+                <div class="mission-row">
+                  <div class="mission-icon">🖥️</div>
+                  <div>
+                    <div class="mission-title">Déploiement de postes dans l'Active Directory</div>
+                    <div class="mission-desc">Intégration de machines Windows 10/11 au domaine AD, création et gestion de comptes utilisateurs (AD Users), application de GPO.</div>
+                  </div>
+                </div>
+                <div class="mission-row">
+                  <div class="mission-icon">🎫</div>
+                  <div>
+                    <div class="mission-title">Résolution de tickets utilisateurs</div>
+                    <div class="mission-desc">Prise en charge et résolution d'incidents N1/N2 via l'outil de ticketing. Diagnostic, escalade et documentation des interventions.</div>
+                  </div>
+                </div>
+                <div class="mission-row">
+                  <div class="mission-icon">🔥</div>
+                  <div>
+                    <div class="mission-title">Configuration et administration d'un pare-feu</div>
+                    <div class="mission-desc">Configuration de règles de filtrage, gestion des flux entrants/sortants, explication de l'administration des flux réseau.</div>
+                  </div>
+                </div>
+                <div class="mission-row">
+                  <div class="mission-icon">🌐</div>
+                  <div>
+                    <div class="mission-title">Changement de DNS sur machines de production</div>
+                    <div class="mission-desc">Reconfiguration des serveurs DNS sur les postes de production industrielle, vérification de la résolution de noms en environnement critique.</div>
+                  </div>
+                </div>
+                <div class="mission-row">
+                  <div class="mission-icon">🔒</div>
+                  <div>
+                    <div class="mission-title">Réalisation d'un projet de données confidentielles</div>
+                    <div class="mission-desc">Gestion de données sensibles liées à la fabrication de dispositifs médicaux, dans le respect des règles RGPD et des exigences ISO 13485.</div>
+                  </div>
+                </div>
+                <div class="mission-row">
+                  <div class="mission-icon">📦</div>
+                  <div>
+                    <div class="mission-title">Installation et configuration de postes de travail</div>
+                    <div class="mission-desc">Préparation, déploiement et livraison de postes utilisateurs (image système, logiciels métier, intégration domaine).</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="badge-row" style="margin-top:1.5rem;">
+                <span class="badge badge-cyan">Active Directory</span>
+                <span class="badge badge-cyan">Windows Server</span>
+                <span class="badge badge-blue">Pare-feu</span>
+                <span class="badge badge-blue">DNS</span>
+                <span class="badge badge-violet">KACE SMA</span>
+                <span class="badge badge-violet">Halo ITSM</span>
+                <span class="badge badge-green">Support N1/N2</span>
+                <span class="badge badge-orange">ISO 13485</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- OUTILS DE TICKETING -->
+          <div class="animate-in itsm-section">
+            <div class="section-title">Outils de gestion de tickets</div>
+            <div class="section-heading">KACE & Halo ITSM</div>
+            <p class="section-desc">Au sein du service informatique d'INTECH Medical, j'utilise quotidiennement des outils ITSM pour gérer les incidents et les demandes utilisateurs.</p>
+
+            <div class="tool-card">
+              <div class="tool-icon">🛡️</div>
+              <div class="tool-content">
+                <h3>KACE SMA (Systems Management Appliance) — Quest</h3>
+                <p>
+                  Solution de gestion de parc informatique utilisée pour le déploiement de logiciels, l'inventaire automatisé 
+                  des équipements, la gestion des correctifs et le ticketing de support. J'ai utilisé KACE pour 
+                  automatiser des déploiements d'images système sur les nouveaux postes et suivre les tickets 
+                  utilisateurs en centralisant les demandes du parc de 880+ collaborateurs.
+                </p>
+                <div class="badge-row" style="margin-top:0.85rem;">
+                  <span class="badge badge-cyan">Inventaire parc</span>
+                  <span class="badge badge-cyan">Déploiement logiciel</span>
+                  <span class="badge badge-blue">Ticketing</span>
+                  <span class="badge badge-blue">Patch management</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="tool-card">
+              <div class="tool-icon">📋</div>
+              <div class="tool-content">
+                <h3>Halo ITSM</h3>
+                <p>
+                  Plateforme ITSM (IT Service Management) utilisée pour la gestion des incidents, des demandes de service 
+                  et du catalogue de services. Halo ITSM suit les meilleures pratiques ITIL et permet un suivi précis 
+                  des SLA. Utilisé pour catégoriser les tickets, prioriser les interventions et documenter les résolutions 
+                  afin d'alimenter la base de connaissances interne.
+                </p>
+                <div class="badge-row" style="margin-top:0.85rem;">
+                  <span class="badge badge-violet">Gestion incidents</span>
+                  <span class="badge badge-violet">ITIL</span>
+                  <span class="badge badge-green">Catalogue de services</span>
+                  <span class="badge badge-green">Base de connaissances</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TIMELINE ANCIENS STAGES -->
+          <div class="animate-in" style="margin-top:3rem;">
+            <div class="section-title">Expériences passées</div>
+            <div class="section-heading">Stages précédents</div>
+
+            <div class="timeline" style="margin-top:2rem;">
+
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">DÉCEMBRE 2024 — 2×3 SEMAINES</div>
+                <div class="timeline-company">Stage chez INTECH Medical</div>
+                <div class="timeline-role">Technicien support informatique — Rang-du-Fliers</div>
+                <ul class="timeline-tasks">
+                  <li>Déploiement de PC dans l'Active Directory (AD User)</li>
+                  <li>Résolution de tickets utilisateurs</li>
+                  <li>Installation et configuration de postes</li>
+                  <li>Configuration d'un pare-feu</li>
+                  <li>Explication d'administration de flux de pare-feu</li>
+                  <li>Changement de DNS sur machines de production</li>
+                  <li>Réalisation d'un projet de données confidentielles</li>
+                </ul>
+                <div class="badge-row">
+                  <span class="badge badge-cyan">Active Directory</span>
+                  <span class="badge badge-blue">Firewall</span>
+                  <span class="badge badge-violet">DNS</span>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--accent-blue); box-shadow:0 0 8px var(--accent-blue)"></div>
+                <div class="timeline-date">ANNÉES 2022 — 2023 — 2×4 SEMAINES</div>
+                <div class="timeline-company">Stage chez Boulanger Le Comptoir</div>
+                <div class="timeline-role">Technicien SAV — Relation client</div>
+                <ul class="timeline-tasks">
+                  <li>SAV en comptoir : diagnostic et réparation de produits électroniques</li>
+                  <li>Encaissement des clients</li>
+                  <li>Facing des produits en rayon</li>
+                  <li>Inventaire des produits</li>
+                </ul>
+                <div class="badge-row">
+                  <span class="badge badge-blue">SAV</span>
+                  <span class="badge badge-orange">Relation client</span>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--accent-violet); box-shadow:0 0 8px var(--accent-violet)"></div>
+                <div class="timeline-date">DÉCEMBRE 2021 — 1 SEMAINE</div>
+                <div class="timeline-company">Stage chez GIFI — Merlimont</div>
+                <div class="timeline-role">Employé polyvalent</div>
+                <ul class="timeline-tasks">
+                  <li>Rangement (réserve et magasin)</li>
+                  <li>Emballage (articles, palettes)</li>
+                  <li>Installation de décoration de Noël</li>
+                  <li>Inventaire d'articles</li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="animate-in">
+          <div class="sidebar-card">
+            <div class="sidebar-title">🏢 À propos d'INTECH Medical</div>
+            <div style="font-size:0.83rem; color:var(--text-muted); line-height:1.8;">
+              <p>Fondé en <strong style="color:var(--text-primary)">1999</strong> à Rang-du-Fliers par 3 anciens de Sofamor/Medtronic.</p>
+              <br>
+              <p>Siège social : <strong style="color:var(--text-primary)">93/95 Avenue du Champ Gretz, Rang-du-Fliers (62)</strong></p>
+              <br>
+              <p>Leader mondial de la fabrication d'instruments chirurgicaux pour la <strong style="color:var(--text-primary)">colonne vertébrale</strong> et d'implants orthopédiques.</p>
+              <br>
+              <p>Clients majeurs : Medtronic, Stryker, Zimmer, DePuy, NuVasive…</p>
+            </div>
+            <div class="badge-row" style="margin-top:1rem;">
+              <span class="badge badge-cyan">ISO 13485</span>
+              <span class="badge badge-green">FDA</span>
+              <span class="badge badge-blue">ANVISA</span>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-title">📊 Bilan des compétences</div>
+            <div style="font-size:0.83rem; color:var(--text-muted);">
+              <div style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border);">
+                <span>Tickets traités</span>
+                <strong style="color:var(--accent-cyan)">100+</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border);">
+                <span>Postes déployés</span>
+                <strong style="color:var(--accent-cyan)">60+</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border);">
+                <span>Pare-feux configurés</span>
+                <strong style="color:var(--accent-cyan)">2</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:0.5rem 0;">
+                <span>Outils ITSM maîtrisés</span>
+                <strong style="color:var(--accent-cyan)">2</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-title">🛠️ Environnement technique</div>
+            <div class="tools-wrap" style="margin-top:0.5rem;">
+              <span class="badge badge-cyan">Windows 10/11</span>
+              <span class="badge badge-cyan">Windows Server 2019</span>
+              <span class="badge badge-blue">Active Directory</span>
+              <span class="badge badge-blue">KACE SMA</span>
+              <span class="badge badge-violet">Halo ITSM</span>
+              <span class="badge badge-violet">Fortinet</span>
+              <span class="badge badge-green">DNS/DHCP</span>
+              <span class="badge badge-orange">GPO</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <span>Diamilou Sueur</span> — BTS SIO SISR — AFPI Marcq-en-Barœul — 2024/2025
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.querySelector('.nav-links').classList.toggle('open');
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
